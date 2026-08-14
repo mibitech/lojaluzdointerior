@@ -11,7 +11,7 @@ services:
       replicas: 1
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.loja3724.rule=Host(`lojaluzdointerior.mibitech.com.br`)"
+        - "traefik.http.routers.loja3724.rule=Host(`lojaluzdointerior.mibitech.com.br`) || Host(`www.lojaluzdointerior.mibitech.com.br`)"
         - "traefik.http.routers.loja3724.entrypoints=websecure"
         - "traefik.http.routers.loja3724.tls.certresolver=letsencryptresolver"
         - "traefik.http.services.loja3724.loadbalancer.server.port=80"
