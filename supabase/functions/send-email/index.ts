@@ -26,7 +26,7 @@ const baseLayout = (content: string) => `
             <td align="center" style="background-color:#1a1a2e;border-radius:12px 12px 0 0;padding:36px 40px 28px;">
               <p style="margin:0 0 8px;font-size:28px;letter-spacing:8px;color:#c9a84c;">✦ ✦ ✦</p>
               <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">
-                Loja Amor da Pátria
+                Loja Luz do Interior
               </h1>
               <p style="margin:6px 0 0;color:#c9a84c;font-size:12px;letter-spacing:3px;text-transform:uppercase;">
                 Fraternidade &bull; Verdade &bull; Justiça
@@ -45,7 +45,7 @@ const baseLayout = (content: string) => `
           <tr>
             <td align="center" style="background-color:#1a1a2e;border-radius:0 0 12px 12px;padding:24px 40px;">
               <p style="margin:0;color:#c9a84c;font-size:11px;letter-spacing:2px;text-transform:uppercase;">
-                Loja Amor da Pátria &mdash; Comunicação Oficial
+                Loja Luz do Interior &mdash; Comunicação Oficial
               </p>
               <p style="margin:8px 0 0;color:#6b6b8a;font-size:11px;">
                 Esta é uma mensagem automática. Por favor, não responda a este e-mail.
@@ -94,10 +94,10 @@ function buildEmailContent(templateType: TemplateType, toName: string): { subjec
       <hr style="border:none;border-top:1px solid #eee;margin:28px 0;">
       <p style="margin:0;color:#888;font-size:13px;line-height:1.6;text-align:center;">
         Fraternalmente,<br>
-        <strong style="color:#1a1a2e;">Secretaria da Loja Amor da Pátria</strong>
+        <strong style="color:#1a1a2e;">Secretaria da Loja Luz do Interior</strong>
       </p>`
     return {
-      subject: 'Senha alterada — Loja Amor da Pátria',
+      subject: 'Senha alterada — Loja Luz do Interior',
       htmlContent: baseLayout(content),
     }
   }
@@ -162,7 +162,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        sender: { name: 'Loja Amor da Pátria', email: senderEmail },
+        sender: { name: 'Loja Luz do Interior', email: senderEmail },
         to: [{ email: user.email, name: toName }],
         subject,
         htmlContent,
