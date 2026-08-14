@@ -1,0 +1,5 @@
+full_name,cim,email,phone,graduation,masonic_degree,member_status,position,commission,is_director_member,photo_url
+João da Silva,123456,joao.silva@email.com,(11) 98765-4321,Mestre Instalado,33,Ativo,Venerável Mestre,Comissão de Finanças,true,
+Antônio Pereira,234567,antonio.pereira@email.com,(11) 98765-1234,Mestre,3,Ativo,Primeiro Vigilante,,true,
+Carlos Souza,345678,carlos.souza@email.com,(11) 91234-5678,Companheiro,2,Ativo,,,false,
+Marcos Lima,456789,marcos.lima@email.com,,Aprendiz,1,Adormecido,,,false,

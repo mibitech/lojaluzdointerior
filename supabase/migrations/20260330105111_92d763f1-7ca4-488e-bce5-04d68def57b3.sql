@@ -1,0 +1,1 @@
+ALTER TABLE public.profiles ADD COLUMN graduation text NOT NULL DEFAULT 'Aprendiz';

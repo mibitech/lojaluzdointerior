@@ -1,0 +1,4 @@
+name,installation_year,term_start_date,term_end_date,bio,achievements,photo_url,is_active,sort_order
+João da Silva,2024,2024-03-15,2026-03-15,Iniciado em 1998 na Loja Amor da Pátria.,Reforma do templo e criação da biblioteca.,,true,1
+Antônio Pereira,2022,2022-03-15,2024-03-15,,Ampliação do quadro de obreiros.,,false,2
+Carlos Souza,2020,2020-03-20,2022-03-15,,,,false,3

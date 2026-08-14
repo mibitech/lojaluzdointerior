@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hide browser scrollbar */
+::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Estandarte da A∴R∴L∴S∴ Luz do Interior: verde vivo, ouro, azul real, negro
+       Convertido de OKLCH (design de referência) para HSL. */
+    --background: 139 50% 10%;
+    --foreground: 78 34% 95%;
+
+    --card: 138 39% 14%;
+    --card-foreground: 78 34% 95%;
+
+    --popover: 138 39% 14%;
+    --popover-foreground: 78 34% 95%;
+
+    /* Masonic theme colors */
+    --primary: 106 86% 36%; /* Verde vivo (escolhido no DS) */
+    --primary-foreground: 136 63% 5%;
+    --primary-variant: 138 33% 19%;
+
+    --secondary: 138 33% 19%;
+    --secondary-foreground: 78 34% 95%;
+
+    --muted: 137 32% 17%;
+    --muted-foreground: 84 27% 84%;
+
+    --accent: 138 30% 24%; /* Verde escuro sutil, para hover/realce */
+    --accent-foreground: 78 34% 95%;
+
+    --destructive: 1 84% 57%;
+    --destructive-foreground: 240 0% 97%;
+
+    --border: 137 26% 27%;
+    --input: 137 26% 27%;
+    --ring: 106 86% 36%;
+
+    --radius: 0.25rem;
+
+    /* Masonic-specific design tokens */
+    --masonic-gold: 106 86% 36%;
+    --masonic-navy: 224 68% 49%; /* Azul real */
+    --masonic-light: 78 34% 95%;
+    --masonic-gray: 137 26% 27%;
+
+    /* Tokens adicionais do estandarte */
+    --gold: 106 86% 36%; /* Verde vivo (escolhido no DS) */
+    --header: 136 63% 5%;
+    --header-foreground: 78 34% 95%;
+    --hero-foreground: 78 64% 98%;
+    --hero-muted: 77 29% 90%;
+    --royal: 224 68% 49%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(138 33% 19%));
+    --gradient-gold: linear-gradient(135deg, hsl(var(--gold)), hsl(106 66% 20%));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--accent)));
+    --gradient-banner: linear-gradient(135deg, hsl(139 45% 16%) 0%, hsl(150 35% 20%) 55%, hsl(224 40% 24%) 100%);
+    --gradient-veil: radial-gradient(
+        ellipse 70% 55% at 50% 45%,
+        hsl(139 50% 10% / 0.55),
+        transparent 75%
+      ),
+      linear-gradient(
+        to bottom,
+        hsl(139 50% 10% / 0.25) 0%,
+        transparent 35%,
+        hsl(138 39% 14% / 0.4) 72%,
+        hsl(var(--background)) 100%
+      );
+
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+    --shadow-soft: 0 4px 20px -5px hsl(var(--primary) / 0.15);
+    --shadow-glow: 0 0 40px hsl(var(--masonic-gold) / 0.3);
+    --shadow-lodge: 0 24px 60px -24px hsl(95 63% 53% / 0.45);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    --sidebar-background: 136 63% 5%;
+    --sidebar-foreground: 78 34% 90%;
+    --sidebar-primary: 106 86% 36%;
+    --sidebar-primary-foreground: 136 63% 5%;
+    --sidebar-accent: 138 33% 19%;
+    --sidebar-accent-foreground: 78 34% 95%;
+    --sidebar-border: 137 26% 27%;
+    --sidebar-ring: 106 86% 36%;
+  }
+
+  .dark {
+    --background: 139 55% 6%;
+    --foreground: 78 34% 95%;
+
+    --card: 138 45% 9%;
+    --card-foreground: 78 34% 95%;
+
+    --popover: 138 45% 9%;
+    --popover-foreground: 78 34% 95%;
+
+    --primary: 106 86% 36%; /* Verde vivo (escolhido no DS) */
+    --primary-foreground: 136 63% 5%;
+    --primary-variant: 138 40% 14%;
+
+    --secondary: 138 40% 12%;
+    --secondary-foreground: 78 34% 95%;
+
+    --muted: 137 35% 11%;
+    --muted-foreground: 84 20% 70%;
+
+    --accent: 138 32% 16%; /* Verde escuro sutil, para hover/realce */
+    --accent-foreground: 78 34% 95%;
+
+    --destructive: 1 70% 45%;
+    --destructive-foreground: 240 0% 97%;
+
+    --border: 137 30% 18%;
+    --input: 137 30% 18%;
+    --ring: 106 86% 36%;
+
+    --masonic-gold: 106 86% 36%;
+    --masonic-navy: 224 68% 60%;
+    --masonic-light: 138 30% 12%;
+    --masonic-gray: 137 20% 20%;
+
+    --gold: 106 86% 36%; /* Verde vivo (escolhido no DS) */
+    --header: 136 68% 3%;
+    --header-foreground: 78 34% 95%;
+    --hero-foreground: 78 64% 98%;
+    --hero-muted: 77 29% 90%;
+    --royal: 224 68% 60%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(139 55% 5%), hsl(138 45% 9%));
+    --gradient-gold: linear-gradient(135deg, hsl(106 86% 36%), hsl(106 66% 20%));
+    --gradient-subtle: linear-gradient(180deg, hsl(139 55% 6%), hsl(138 40% 10%));
+    --gradient-banner: linear-gradient(135deg, hsl(139 50% 10%) 0%, hsl(150 40% 14%) 55%, hsl(224 40% 20%) 100%);
+
+    --shadow-elegant: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
+    --shadow-soft: 0 4px 20px -5px hsl(0 0% 0% / 0.4);
+    --shadow-glow: 0 0 40px hsl(106 86% 36% / 0.15);
+    --shadow-lodge: 0 24px 60px -24px hsl(95 63% 53% / 0.5);
+
+    --sidebar-background: 136 68% 3%;
+    --sidebar-foreground: 78 34% 90%;
+    --sidebar-primary: 106 86% 36%;
+    --sidebar-primary-foreground: 136 63% 5%;
+    --sidebar-accent: 138 40% 12%;
+    --sidebar-accent-foreground: 78 34% 95%;
+    --sidebar-border: 137 30% 18%;
+    --sidebar-ring: 106 86% 36%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -1,0 +1,109 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [dev, main]
+  pull_request:
+    branches: [main]
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+
+jobs:
+  # ── Job 1: qualidade ─────────────────────────────────────────────────────
+  # Portão obrigatório: typecheck. Falhou → nada avança.
+  # Lint fica fora do portão por ora: o projeto ainda tem erros `as any`
+  # pré-existentes (épico B do Sprint 1) que travariam todo deploy.
+  quality:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Instalar dependências
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm tsc --noEmit
+
+  # ── Job 2: build + push da imagem ────────────────────────────────────────
+  # Só em push (não em PR). Publica duas tags: :latest e :<SHA>.
+  build-push:
+    name: Build & Push Docker
+    needs: quality
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build e push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ github.sha }}
+          build-args: |
+            VITE_SUPABASE_URL=${{ vars.VITE_SUPABASE_URL }}
+            VITE_SUPABASE_ANON_KEY=${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          # Sem cache de build: o cache gha chegou a servir a camada
+          # `RUN pnpm build` antiga → imagem com SHA novo mas bundle velho.
+          # Build de frontend é rápido; não cachear garante bundle do commit.
+          no-cache: true
+
+  # ── Job 3: deploy via SSH + SHA ──────────────────────────────────────────
+  # Usa tag SHA (nunca :latest) → Swarm nunca tem em cache → pull garantido.
+  # Só roda em push na main (dev apenas builda, não deploya em produção).
+  deploy:
+    name: Deploy via SSH
+    needs: build-push
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy via SSH (docker service update com SHA)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -e
+            TARGET="ghcr.io/mibitech/lojaluzdointerior:${{ github.sha }}"
+            docker service update \
+              --force \
+              --with-registry-auth \
+              --image "$TARGET" \
+              lojaluzdointerior_frontend
+            # Verificação pós-update: o `docker service update` pode reportar
+            # "converged" sem trocar a imagem (armadilha SHA). Confirmamos que
+            # o Spec bate com o alvo — senão FALHA o job.
+            ACTUAL=$(docker service inspect lojaluzdointerior_frontend \
+              --format '{{.Spec.TaskTemplate.ContainerSpec.Image}}' | cut -d@ -f1)
+            echo "esperado: $TARGET"
+            echo "atual:    $ACTUAL"
+            if [ "$ACTUAL" != "$TARGET" ]; then
+              echo "::error::service NÃO atualizou para o SHA alvo (armadilha SHA)"
+              exit 1
+            fi
+            echo "Deploy ${{ github.sha }} concluído e VERIFICADO."
