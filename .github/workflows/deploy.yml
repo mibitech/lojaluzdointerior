@@ -86,7 +86,7 @@ jobs:
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
           script: |
             set -e
             TARGET="ghcr.io/mibitech/lojaluzdointerior:${{ github.sha }}"
